@@ -40,6 +40,7 @@ public class SecurityResource {
 				UserLogged me = new UserLogged();
 				me.setUsername(credencias.getUsername());
 				me.setToken(token);
+				me.setUsuario(user);
 				return Response.ok().entity(me).build();
 			} else {
 				return Response.status(Response.Status.UNAUTHORIZED).build();

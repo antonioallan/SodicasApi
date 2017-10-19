@@ -10,7 +10,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JWTUtil {
 	private static String key = "SODICAS_SECURITY_KEY";
-	private static int timeToExpire = 2;
+	private static int timeToExpire = 10;
 
 	public static final String TOKEN_HEADER = "Authentication";
 

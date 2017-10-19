@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.sodicas.api.usuario.Usuario;
 
 @Entity
@@ -33,6 +35,7 @@ public class Autor {
 	@Column(name="sobre",length=1024)
 	private String sobre;
 	
+	@JsonIgnore
 	@OneToOne(mappedBy="autor")
 	private Usuario usuario;
 

@@ -30,7 +30,8 @@ public class UsuarioResource {
 	@Path("/{username}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Usuario getUsuario(@PathParam("username") String username) {
-		return dao.buscaPorId(username);
+		Usuario usuario = dao.buscaPorId(username); 
+		return usuario;
 	}
 
 	@POST

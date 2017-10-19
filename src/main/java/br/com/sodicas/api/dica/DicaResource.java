@@ -61,16 +61,13 @@ public class DicaResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response adicionar(Dica dica) {
-		Status status = Status.BAD_REQUEST;
-		Mensagen msg;
 		try {
 			dao.adicionar(dica);
-			status = Status.OK;
-			msg = new Mensagen(1,"Operação realizasa com sucesso");
+			return Response.ok(dica).build();
 		} catch (Exception e) {
-			msg = new Mensagen(0, e.getMessage());
+			return Response.status(Status.BAD_REQUEST).entity(new Mensagen(0, e.getMessage())).build();
 		}
-		return Response.status(status).entity(msg).build();
+		
 	}
 	
 	@PUT
