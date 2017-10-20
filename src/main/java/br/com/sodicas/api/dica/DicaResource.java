@@ -1,10 +1,12 @@
 package br.com.sodicas.api.dica;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -62,6 +64,7 @@ public class DicaResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response adicionar(Dica dica) {
 		try {
+			dica.setData(Calendar.getInstance());
 			dao.adicionar(dica);
 			return Response.ok(dica).build();
 		} catch (Exception e) {
@@ -77,6 +80,23 @@ public class DicaResource {
 		Mensagen msg;
 		try {
 			dao.alterar(dica);
+			status = Status.OK;
+			msg = new Mensagen(1,"Operação realizasa com sucesso");
+		} catch (Exception e) {
+			msg = new Mensagen(0, e.getMessage());
+		}
+		return Response.status(status).entity(msg).build();
+	}
+	
+	@DELETE
+	@Path("{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response remover(@PathParam("id") Long id){
+		Status status = Status.BAD_REQUEST;
+		Mensagen msg;
+		try {
+			Dica dica = dao.buscaPorId(id);
+			dao.remove(dica);
 			status = Status.OK;
 			msg = new Mensagen(1,"Operação realizasa com sucesso");
 		} catch (Exception e) {

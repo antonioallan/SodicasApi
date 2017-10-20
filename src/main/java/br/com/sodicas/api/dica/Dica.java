@@ -53,6 +53,11 @@ public class Dica {
 	
 	@Column(name="pontuacao",scale = 2, precision = 15)
 	private BigDecimal pontuacao;
+	
+	public Dica() {
+		this.data = Calendar.getInstance();
+		this.pontuacao = BigDecimal.ZERO;
+	}
 
 	public Long getId() {
 		return id;

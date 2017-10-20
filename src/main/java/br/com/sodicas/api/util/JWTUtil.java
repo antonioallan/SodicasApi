@@ -20,7 +20,7 @@ public class JWTUtil {
 		return Jwts.builder()
 				.setSubject(subject)
 				.setExpiration(now.getTime())
-				.signWith(SignatureAlgorithm.HS512, key).compact();
+				.signWith(SignatureAlgorithm.HS256, key).compact();
 	}
 
 	public static Jws<Claims> decode(String token) {

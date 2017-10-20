@@ -38,6 +38,10 @@ public class DicaDao {
 		manager.merge(dica);
 	}
 	
+	public void remove(Dica dica) {
+		manager.remove(dica);
+	}
+	
 	public List<Dica> buscaPor(String titulo, List<Tag> tags){
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Dica> query = builder.createQuery(Dica.class);
