@@ -38,30 +38,22 @@ public class ComentarioResource {
 	}
 	
 	@POST
-	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response adicionar(@PathParam("id") Long id, Comentario comentario) {
-		Status status = Status.BAD_REQUEST;
-		Mensagen msg;
-		
+	public Response adicionar(Comentario comentario) {
 		try {
-			Dica dica = dicaDao.buscaPorId(id);
-			comentario.setDica(dica);
 			comentario.setData(Calendar.getInstance());
 			dao.adicionar(comentario);
-			status = Status.OK;
-			msg = new Mensagen(1, "Operação realizada com sucesso!");
+			return Response.ok(comentario).build();
 		} catch (Exception e) {
-			msg = new Mensagen(0,e.getMessage());
+			Mensagen msg = new Mensagen(0,e.getMessage());
+			return Response.status(Status.BAD_REQUEST).entity(msg).build();
 		}
-		
-		return Response.status(status).entity(msg).build();
 	}
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response alterar(@PathParam("id") Long id, Comentario comentario) {
+	public Response alterar(Comentario comentario) {
 		Status status = Status.BAD_REQUEST;
 		Mensagen msg;
 		try {
@@ -71,7 +63,6 @@ public class ComentarioResource {
 		} catch (Exception e) {
 			msg = new Mensagen(0,e.getMessage());
 		}
-		
 		return Response.status(status).entity(msg).build();
 	}
 }

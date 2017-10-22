@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.sodicas.api.dica.Dica;
 
 @Entity
@@ -32,6 +34,7 @@ public class Comentario {
 	@Column(name="data", nullable=false)
 	private Calendar data;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="dica_id",nullable=false, referencedColumnName="id")
 	private Dica dica;
