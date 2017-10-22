@@ -2,8 +2,6 @@ package br.com.sodicas.api;
 
 import java.io.File;
 
-import javax.ws.rs.core.Response;
-
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.wildfly.swarm.Swarm;
 import org.wildfly.swarm.datasources.DatasourcesFraction;
