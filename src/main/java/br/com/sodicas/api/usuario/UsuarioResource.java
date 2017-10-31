@@ -1,5 +1,7 @@
 package br.com.sodicas.api.usuario;
 
+import java.util.Objects;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -59,16 +61,18 @@ public class UsuarioResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response alterarUsuario(Usuario usuario) {
-		Status status = Status.BAD_REQUEST;
-		Mensagen msg = new Mensagen();
 		try {
-//			usuario.setAutor(autorDao.buscaAutorComId(usuario.getAutor().getId()));
+			Usuario usuarioAntigo = dao.buscaPorId(usuario.getUsername());
+			if(Objects.isNull(usuario.getSenha())) {
+				usuario.setSenha(usuarioAntigo.getSenha());
+			}else {
+				usuario.setSenha(Cripto.MD5(usuario.getSenha()));
+			}
 			dao.alterar(usuario);
-			status = Status.OK;
-			msg = new Mensagen(1,"Operação realizada com sucesso.");
+			return Response.ok(usuario).build();
 		} catch (Exception e) {
-			msg = new Mensagen(0,e.getMessage());
+			Mensagen msg = new Mensagen(0,e.getMessage());
+			return Response.status(Status.BAD_REQUEST).entity(msg).build();
 		}
-		return Response.status(status).entity(msg).build();
 	}
 }

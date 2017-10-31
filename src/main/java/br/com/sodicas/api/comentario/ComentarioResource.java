@@ -30,18 +30,20 @@ public class ComentarioResource {
 	private DicaDao dicaDao;
 	
 	@GET
-	@Path("/{id}")
+	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	private List<Comentario> getComentarios(@PathParam("id") Long id){
+	public List<Comentario> getComentarios(@PathParam("id") Long id){
 		Dica dica = dicaDao.buscaPorId(id);
 		return dao.buscarPor(dica);
 	}
 	
 	@POST
+	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response adicionar(Comentario comentario) {
+	public Response adicionar(@PathParam("id") Long dicaId, Comentario comentario) {
 		try {
+			comentario.setDica(dicaDao.buscaPorId(dicaId));
 			comentario.setData(Calendar.getInstance());
 			dao.adicionar(comentario);
 			return Response.ok(comentario).build();

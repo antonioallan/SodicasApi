@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response.Status;
 
 import br.com.sodicas.api.autor.Autor;
 import br.com.sodicas.api.autor.AutorDao;
+import br.com.sodicas.api.autor.AutorService;
 import br.com.sodicas.api.util.Mensagen;
 
 @Path("dica")
@@ -30,12 +31,16 @@ public class DicaResource {
 	private DicaDao dao;
 	@EJB
 	private AutorDao autorDao;
+	@EJB
+	private AutorService autorService;
 	
-	@GET
+	@POST
+	@Path("filtro/{limit}/{offset}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public List<Dica> buscarPor(Dados dados){
-		return dao.buscaPor(dados.getTitulo(),dados.getTags());
+	public List<Dica> buscarPor(@PathParam("limit") int limit,@PathParam("offset") int offset,Dados dados){
+		List<Dica> lista = dao.buscaPor(dados.getTitulo(),dados.getTags(),limit, offset);
+		return lista;
 	}
 	
 	@GET
@@ -104,4 +109,16 @@ public class DicaResource {
 		}
 		return Response.status(status).entity(msg).build();
 	}
+	@POST
+	@Path("votar")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Dica votar(Voto voto) {
+		voto.setDica(dao.buscaPorId(voto.getDica().getId()));
+		voto.votar();
+		dao.alterar(voto.getDica());
+		autorService.atualizarPontuacao(voto.getDica().getAutor());
+		return voto.getDica();
+	}
+	 
 }

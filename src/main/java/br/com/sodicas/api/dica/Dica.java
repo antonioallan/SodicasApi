@@ -41,7 +41,7 @@ public class Dica {
 	@JoinColumn(name="autor_id",referencedColumnName="id")
 	private Autor autor;
 	
-	@Column(name="conteudo",nullable=false, length=1024)
+	@Column(name="conteudo",nullable=false, columnDefinition="TEXT")
 	private String conteudo;
 	
 	@ManyToMany(fetch=FetchType.EAGER)
