@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 
@@ -30,6 +31,7 @@ public class DicaDao {
 		CriteriaQuery<Dica> query = builder.createQuery(Dica.class);
 		Root<Dica> root = query.from(Dica.class);
 		query.select(root);
+		query.orderBy(builder.asc(root.get("id")));
 		return manager.createQuery(query).getResultList();
 	}
 
@@ -56,6 +58,7 @@ public class DicaDao {
 			query.where(builder.like(root.get("titulo"), titulo.concat("%")), tagExp.in(tags));
 		}
 		query.select(root);
+		query.orderBy(builder.asc(root.get("id")));
 		return manager.createQuery(query).setFirstResult(offset).setMaxResults(limit).getResultList();
 	}
 
@@ -65,6 +68,7 @@ public class DicaDao {
 		Root<Dica> root = query.from(Dica.class);
 		query.where(builder.equal(root.get("autor"), autor));
 		query.select(root);
+		query.orderBy(builder.asc(root.get("id")));
 		return manager.createQuery(query).getResultList();
 	}
 
@@ -84,6 +88,7 @@ public class DicaDao {
 		CriteriaQuery<Dica> query = builder.createQuery(Dica.class);
 		Root<Dica> root = query.from(Dica.class);
 		query.select(root);
+		query.orderBy(builder.asc(root.get("id")));
 		return manager.createQuery(query).setFirstResult(offset).setMaxResults(limit).getResultList();
 	}
 
