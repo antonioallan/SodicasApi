@@ -1,6 +1,7 @@
 package br.com.sodicas.api.dica;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -52,10 +53,10 @@ public class DicaDao {
 		CriteriaQuery<Dica> query = builder.createQuery(Dica.class);
 		Root<Dica> root = query.from(Dica.class);
 		if (tags.isEmpty()) {
-			query.where(builder.like(root.get("titulo"), titulo.concat("%")));
+			query.where(builder.like(builder.lower(root.get("titulo")), titulo.toLowerCase().concat("%")));
 		} else {
 			Expression<Tag> tagExp = root.join("tags");
-			query.where(builder.like(root.get("titulo"), titulo.concat("%")), tagExp.in(tags));
+			query.where(builder.like(builder.lower(root.get("titulo")), titulo.toLowerCase().concat("%")), tagExp.in(tags));
 		}
 		query.select(root);
 		query.orderBy(builder.asc(root.get("id")));
@@ -80,7 +81,9 @@ public class DicaDao {
 		query.where(builder.equal(root.get("autor"), autor));
 		query.select(builder.avg(pontuacao));
 		Double media = manager.createQuery(query).getSingleResult();
-		return BigDecimal.valueOf(media);
+		media = Math.round(media * 100)/100d;
+		BigDecimal md = BigDecimal.valueOf(media);
+		return md;
 	}
 
 	public List<Dica> buscaPor(int limit, int offset) {

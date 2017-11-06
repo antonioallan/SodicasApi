@@ -46,7 +46,7 @@ public class Dica {
 	
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="tag_id",referencedColumnName="id")
-	private List<Tag> tags;
+	private Set<Tag> tags;
 	
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="dica")
 	private Set<Comentario> comentario;
@@ -99,11 +99,11 @@ public class Dica {
 		this.conteudo = conteudo;
 	}
 
-	public List<Tag> getTags() {
+	public Set<Tag> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<Tag> tags) {
+	public void setTags(Set<Tag> tags) {
 		this.tags = tags;
 	}
 

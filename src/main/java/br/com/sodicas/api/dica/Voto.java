@@ -1,6 +1,7 @@
 package br.com.sodicas.api.dica;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Voto {
 	
@@ -22,7 +23,7 @@ public class Voto {
 	
 	public void votar() {
 		BigDecimal pontuacao = this.dica.getPontuacao();
-		BigDecimal novaPontuacao = BigDecimal.ZERO.compareTo(pontuacao) == 0 ? this.nota : this.dica.getPontuacao().add(this.nota).divide(BigDecimal.valueOf(2)).setScale(2);
+		BigDecimal novaPontuacao = BigDecimal.ZERO.compareTo(pontuacao) == 0 ? this.nota : this.dica.getPontuacao().add(this.nota).divide(BigDecimal.valueOf(2),RoundingMode.HALF_EVEN).setScale(2);
 		this.dica.setPontuacao(novaPontuacao);
 	}
 
