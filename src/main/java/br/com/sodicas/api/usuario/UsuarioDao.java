@@ -20,8 +20,8 @@ public class UsuarioDao {
 		manager.persist(usuario);
 	}
 	
-	public void alterar(Usuario usuario) {
-		manager.merge(usuario);
+	public Usuario alterar(Usuario usuario) {
+		return manager.merge(usuario);
 	}
 	
 	public boolean existeUsuario(String username) {

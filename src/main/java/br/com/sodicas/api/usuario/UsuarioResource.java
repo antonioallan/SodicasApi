@@ -63,13 +63,13 @@ public class UsuarioResource {
 	public Response alterarUsuario(Usuario usuario) {
 		try {
 			Usuario usuarioAntigo = dao.buscaPorId(usuario.getUsername());
-			if(Objects.isNull(usuario.getSenha())) {
+			if(Objects.isNull(usuario.getSenha()) || "".equals(usuario.getSenha())) {
 				usuario.setSenha(usuarioAntigo.getSenha());
 			}else {
 				usuario.setSenha(Cripto.MD5(usuario.getSenha()));
 			}
-			dao.alterar(usuario);
-			return Response.ok(usuario).build();
+			Usuario user = dao.alterar(usuario);
+			return Response.ok(user).build();
 		} catch (Exception e) {
 			Mensagen msg = new Mensagen(0,e.getMessage());
 			return Response.status(Status.BAD_REQUEST).entity(msg).build();
