@@ -10,16 +10,15 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class CORS implements ContainerResponseFilter {
 
-	@Override
-	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
-			throws IOException {
-		responseContext.getHeaders().add("Access-Control-Allow-Origin", "*");
-		responseContext.getHeaders().add("Access-Control-Allow-Headers",
-				"Restrito,origin, content-type, accept, authorization, Authentication");
-		responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");
-		responseContext.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
-		responseContext.getHeaders().add("Access-Control-Max-Age", "1209600");
+    @Override
+    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
+            throws IOException {
+        responseContext.getHeaders().add("Access-Control-Allow-Origin", "*");
+        responseContext.getHeaders().add("Access-Control-Allow-Headers", "Restrito, origin, content-type, accept, authorization, Authentication");
+        responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");
+        responseContext.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        responseContext.getHeaders().add("Access-Control-Max-Age", "1209600");
 
-	}
+    }
 
 }

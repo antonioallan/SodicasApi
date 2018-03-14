@@ -11,28 +11,27 @@ import javax.ws.rs.ext.Provider;
 
 @Provider
 public class SecurityInterceptor implements ContainerRequestFilter {
-	
-	@Override
-	public void filter(ContainerRequestContext requestContext) throws IOException {
-		String rest = requestContext.getHeaderString("Restrito");
-		boolean restrito  = "true".equals(rest);
-		String token = requestContext.getHeaderString(JWTUtil.TOKEN_HEADER);
-		
-		if(!restrito) {
-			return;
-		}
-		
-		if(Objects.isNull(token) || token.trim().isEmpty()) {
-			requestContext.abortWith(Response.status(Status.UNAUTHORIZED).entity(new Mensagen(0, "não possui token")).build());
-			return;
-		}
-		
-		try {
-			JWTUtil.parser(token);
-			return;
-		} catch (Exception e) {
-			requestContext.abortWith(Response.status(Status.UNAUTHORIZED).build());
-		}
-	}
+
+    @Override
+    public void filter(ContainerRequestContext requestContext) throws IOException {
+        String rest = requestContext.getHeaderString("Restrito");
+        boolean restrito = "true".equals(rest);
+        String token = requestContext.getHeaderString(JWTUtil.TOKEN_HEADER);
+
+        if (!restrito) {
+            return;
+        }
+
+        if (Objects.isNull(token) || token.trim().isEmpty()) {
+            requestContext.abortWith(Response.status(Status.UNAUTHORIZED).entity(new Mensagem(0, "não possui token")).build());
+            return;
+        }
+
+        try {
+            JWTUtil.parser(token);
+        } catch (Exception e) {
+            requestContext.abortWith(Response.status(Status.UNAUTHORIZED).build());
+        }
+    }
 
 }

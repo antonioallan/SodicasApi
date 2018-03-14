@@ -5,8 +5,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Cripto {
-	
-	public static String MD5(String senha) throws NoSuchAlgorithmException {
+
+    public static String MD5(String senha) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("md5");
         BigInteger hash = new BigInteger(1, md.digest(senha.getBytes()));
         return hash.toString(16);

@@ -21,98 +21,126 @@ import javax.persistence.TemporalType;
 import br.com.sodicas.api.autor.Autor;
 import br.com.sodicas.api.comentario.Comentario;
 import br.com.sodicas.api.tag.Tag;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
-public class Dica {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id", nullable=false)
-	private Long id;
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name="data",nullable=false)
-	private Calendar data;
-	
-	@Column(name="titulo", nullable=false)
-	private String titulo;
-	
-	@ManyToOne
-	@JoinColumn(name="autor_id",referencedColumnName="id")
-	private Autor autor;
-	
-	@Column(name="conteudo",nullable=false, columnDefinition="TEXT")
-	private String conteudo;
-	
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="tag_id",referencedColumnName="id")
-	private Set<Tag> tags;
-	
-	@OneToMany(fetch=FetchType.EAGER, mappedBy="dica")
-	private Set<Comentario> comentario;
-	
-	@Column(name="pontuacao",scale = 2, precision = 15)
-	private BigDecimal pontuacao;
-	
-	public Dica() {
-		this.data = Calendar.getInstance();
-		this.pontuacao = BigDecimal.ZERO;
-	}
+public class Dica implements Serializable {
 
-	public Long getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Temporal(TemporalType.DATE)
+    @Column(name = "data", nullable = false)
+    private Calendar data;
 
-	public Calendar getData() {
-		return data;
-	}
+    @Column(name = "titulo", nullable = false)
+    private String titulo;
 
-	public void setData(Calendar data) {
-		this.data = data;
-	}
+    @ManyToOne
+    @JoinColumn(name = "autor_id", referencedColumnName = "id")
+    private Autor autor;
 
-	public String getTitulo() {
-		return titulo;
-	}
+    @Column(name = "conteudo", nullable = false, columnDefinition = "TEXT")
+    private String conteudo;
 
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "tag_id", referencedColumnName = "id")
+    private Set<Tag> tags;
 
-	public Autor getAutor() {
-		return autor;
-	}
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dica")
+    private Set<Comentario> comentario;
 
-	public void setAutor(Autor autor) {
-		this.autor = autor;
-	}
+    @Column(name = "pontuacao", scale = 2, precision = 15)
+    private BigDecimal pontuacao;
 
-	public String getConteudo() {
-		return conteudo;
-	}
+    public Dica() {
+        this.data = Calendar.getInstance();
+        this.pontuacao = BigDecimal.ZERO;
+    }
 
-	public void setConteudo(String conteudo) {
-		this.conteudo = conteudo;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Set<Tag> getTags() {
-		return tags;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setTags(Set<Tag> tags) {
-		this.tags = tags;
-	}
+    public Calendar getData() {
+        return data;
+    }
 
-	public BigDecimal getPontuacao() {
-		return pontuacao;
-	}
+    public void setData(Calendar data) {
+        this.data = data;
+    }
 
-	public void setPontuacao(BigDecimal pontuacao) {
-		this.pontuacao = pontuacao;
-	}
-	
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public Autor getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Autor autor) {
+        this.autor = autor;
+    }
+
+    public String getConteudo() {
+        return conteudo;
+    }
+
+    public void setConteudo(String conteudo) {
+        this.conteudo = conteudo;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public BigDecimal getPontuacao() {
+        return pontuacao;
+    }
+
+    public void setPontuacao(BigDecimal pontuacao) {
+        this.pontuacao = pontuacao;
+    }
+
+    public Set<Comentario> getComentario() {
+        return comentario;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 53 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Dica other = (Dica) obj;
+        return Objects.equals(this.id, other.id);
+    }
+
 }

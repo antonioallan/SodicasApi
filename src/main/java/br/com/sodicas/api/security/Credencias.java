@@ -3,31 +3,31 @@ package br.com.sodicas.api.security;
 import java.security.NoSuchAlgorithmException;
 
 import br.com.sodicas.api.util.Cripto;
+import java.io.Serializable;
 
-public class Credencias {
-	
-	private String username;
-	
-	private String senha;
+public class Credencias implements Serializable {
 
-	public String getUsername() {
-		return username;
-	}
+    private String username;
+    private String senha;
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public String getSenha() {
-		return senha;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-	
-	public String getCriptSenha() throws NoSuchAlgorithmException {
-		return Cripto.MD5(this.senha);
-	}
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getCriptSenha() throws NoSuchAlgorithmException {
+        return Cripto.MD5(this.senha);
+    }
 
 }

@@ -12,32 +12,33 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.Provider;
 
-@Stateless
+@Provider
 @Path("/autor")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class AutorResource {
 
-	@EJB
-	private AutorDao dao;
+    @EJB
+    private AutorDao dao;
 
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Autor> getAutores() {
-		return dao.buscarTodos();
-	}
+    @GET
+    public List<Autor> getAutores() {
+        return dao.buscarTodos();
+    }
 
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response adicionaAutor(Autor autor) {
+    @POST
+    public Response adicionaAutor(Autor autor) {
 
-		dao.adiciona(autor);
-		return Response.ok().build();
-	}
-	@GET
-	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Autor getAutor(@PathParam("id") Long id) {
-		return dao.buscaPorId(id);
-	}
+        dao.adiciona(autor);
+        return Response.ok().build();
+    }
+
+    @GET
+    @Path("/{id}")
+    public Autor getAutor(@PathParam("id") Long id) {
+        return dao.buscaPorId(id);
+    }
 
 }

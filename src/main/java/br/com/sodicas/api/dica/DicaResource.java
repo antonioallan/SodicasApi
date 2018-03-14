@@ -21,104 +21,98 @@ import javax.ws.rs.core.Response.Status;
 import br.com.sodicas.api.autor.Autor;
 import br.com.sodicas.api.autor.AutorDao;
 import br.com.sodicas.api.autor.AutorService;
-import br.com.sodicas.api.util.Mensagen;
+import br.com.sodicas.api.util.Mensagem;
+import javax.ws.rs.ext.Provider;
 
 @Path("dica")
-@Stateless
+@Provider
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class DicaResource {
 
-	@EJB
-	private DicaDao dao;
-	@EJB
-	private AutorDao autorDao;
-	@EJB
-	private AutorService autorService;
-	
-	@POST
-	@Path("filtro/{limit}/{offset}")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public List<Dica> buscarPor(@PathParam("limit") int limit,@PathParam("offset") int offset,Dados dados){
-		List<Dica> lista = dao.buscaPor(dados.getTitulo(),dados.getTags(),limit, offset);
-		return lista;
-	}
-	
-	@GET
-	@Path("lancamento")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Dica> buscarPor(@QueryParam("limit") int limit,@QueryParam("offset") int offset){
-		return dao.buscaPor(limit, offset);
-	}
-	
-	@GET
-	@Path("{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Dica buscarPorId(@PathParam("id") Long id){
-		return dao.buscaPorId(id);
-	}
-	
-	@GET
-	@Path("/autor/{idAutor}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Dica> buscarPorAutor(@PathParam("idAutor") Long idAutor){
-		Autor autor = autorDao.buscaPorId(idAutor); 
-		return dao.buscaPor(autor);
-	}
-	
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response adicionar(Dica dica) {
-		try {
-			dica.setData(Calendar.getInstance());
-			dao.adicionar(dica);
-			return Response.ok(dica).build();
-		} catch (Exception e) {
-			return Response.status(Status.BAD_REQUEST).entity(new Mensagen(0, e.getMessage())).build();
-		}
-		
-	}
-	
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response alterar(Dica dica) {
-		Status status = Status.BAD_REQUEST;
-		Mensagen msg;
-		try {
-			dao.alterar(dica);
-			status = Status.OK;
-			msg = new Mensagen(1,"Operação realizasa com sucesso");
-		} catch (Exception e) {
-			msg = new Mensagen(0, e.getMessage());
-		}
-		return Response.status(status).entity(msg).build();
-	}
-	
-	@DELETE
-	@Path("{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response remover(@PathParam("id") Long id){
-		Status status = Status.BAD_REQUEST;
-		Mensagen msg;
-		try {
-			Dica dica = dao.buscaPorId(id);
-			dao.remove(dica);
-			status = Status.OK;
-			msg = new Mensagen(1,"Operação realizasa com sucesso");
-		} catch (Exception e) {
-			msg = new Mensagen(0, e.getMessage());
-		}
-		return Response.status(status).entity(msg).build();
-	}
-	@POST
-	@Path("votar")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Dica votar(Voto voto) {
-		voto.setDica(dao.buscaPorId(voto.getDica().getId()));
-		voto.votar();
-		dao.alterar(voto.getDica());
-		autorService.atualizarPontuacao(voto.getDica().getAutor());
-		return voto.getDica();
-	}
-	 
+    @EJB
+    private DicaDao dao;
+    @EJB
+    private AutorDao autorDao;
+    @EJB
+    private AutorService autorService;
+
+    @POST
+    @Path("filtro/{limit}/{offset}")
+    public List<Dica> buscarPor(@PathParam("limit") int limit, @PathParam("offset") int offset, Dados dados) {
+        List<Dica> lista = dao.buscaPor(dados.getTitulo(), dados.getTags(), limit, offset);
+        return lista;
+    }
+
+    @GET
+    @Path("lancamento")
+    public List<Dica> buscarPor(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
+        return dao.buscaPor(limit, offset);
+    }
+
+    @GET
+    @Path("{id}")
+    public Dica buscarPorId(@PathParam("id") Long id) {
+        return dao.buscaPorId(id);
+    }
+
+    @GET
+    @Path("/autor/{idAutor}")
+    public List<Dica> buscarPorAutor(@PathParam("idAutor") Long idAutor) {
+        Autor autor = autorDao.buscaPorId(idAutor);
+        return dao.buscaPor(autor);
+    }
+
+    @POST
+    public Response adicionar(Dica dica) {
+        try {
+            dica.setData(Calendar.getInstance());
+            dao.adicionar(dica);
+            return Response.ok(dica).build();
+        } catch (Exception e) {
+            return Response.status(Status.BAD_REQUEST).entity(new Mensagem(0, e.getMessage())).build();
+        }
+
+    }
+
+    @PUT
+    public Response alterar(Dica dica) {
+        Status status = Status.BAD_REQUEST;
+        Mensagem msg;
+        try {
+            dao.alterar(dica);
+            status = Status.OK;
+            msg = new Mensagem(1, "Operação realizasa com sucesso");
+        } catch (Exception e) {
+            msg = new Mensagem(0, e.getMessage());
+        }
+        return Response.status(status).entity(msg).build();
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response remover(@PathParam("id") Long id) {
+        Status status = Status.BAD_REQUEST;
+        Mensagem msg;
+        try {
+            Dica dica = dao.buscaPorId(id);
+            dao.remove(dica);
+            status = Status.OK;
+            msg = new Mensagem(1, "Operação realizasa com sucesso");
+        } catch (Exception e) {
+            msg = new Mensagem(0, e.getMessage());
+        }
+        return Response.status(status).entity(msg).build();
+    }
+
+    @POST
+    @Path("votar")
+    public Dica votar(Voto voto) {
+        voto.setDica(dao.buscaPorId(voto.getDica().getId()));
+        voto.votar();
+        dao.alterar(voto.getDica());
+        autorService.atualizarPontuacao(voto.getDica().getAutor());
+        return voto.getDica();
+    }
+
 }

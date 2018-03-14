@@ -12,87 +12,111 @@ import javax.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.sodicas.api.usuario.Usuario;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
-public class Autor {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(name="avatar",nullable=false)
-	private String avatar;
-	
-	@Column(name="nome", nullable=false)
-	private String nome;
-	
-	@Column(name="nickname")
-	private String nickname;
-	
-	@Column(name="pontuacao",precision=15, scale=2)
-	private BigDecimal pontuacao;
-	
-	@Column(name="sobre",length=1024)
-	private String sobre;
-	
-	@JsonIgnore
-	@OneToOne(mappedBy="autor")
-	private Usuario usuario;
+public class Autor implements Serializable {
 
-	public Long getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Column(name = "avatar", nullable = false)
+    private String avatar;
 
-	public String getAvatar() {
-		return avatar;
-	}
+    @Column(name = "nome", nullable = false)
+    private String nome;
 
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
+    @Column(name = "nickname")
+    private String nickname;
 
-	public String getNome() {
-		return nome;
-	}
+    @Column(name = "pontuacao", precision = 15, scale = 2)
+    private BigDecimal pontuacao;
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    @Column(name = "sobre", length = 1024)
+    private String sobre;
 
-	public String getNickname() {
-		return nickname;
-	}
+    @JsonIgnore
+    @OneToOne(mappedBy = "autor")
+    private Usuario usuario;
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public BigDecimal getPontuacao() {
-		return pontuacao;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setPontuacao(BigDecimal pontucao) {
-		this.pontuacao = pontucao;
-	}
+    public String getAvatar() {
+        return avatar;
+    }
 
-	public String getSobre() {
-		return sobre;
-	}
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
-	public void setSobre(String sobre) {
-		this.sobre = sobre;
-	}
-	
-	public Usuario getUsuario() {
-		return usuario;
-	}
-	
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-	
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public BigDecimal getPontuacao() {
+        return pontuacao;
+    }
+
+    public void setPontuacao(BigDecimal pontucao) {
+        this.pontuacao = pontucao;
+    }
+
+    public String getSobre() {
+        return sobre;
+    }
+
+    public void setSobre(String sobre) {
+        this.sobre = sobre;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Autor other = (Autor) obj;
+        return Objects.equals(this.id, other.id);
+    }
+
 }
