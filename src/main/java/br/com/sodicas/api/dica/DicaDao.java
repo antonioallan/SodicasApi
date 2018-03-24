@@ -44,7 +44,7 @@ public class DicaDao implements Serializable {
     }
 
     public void remove(Dica dica) {
-        manager.remove(dica);
+        manager.remove(manager.getReference(Dica.class, dica.getId()));
     }
 
     public List<Dica> buscaPor(String titulo, List<Tag> tags, int limit, int offset) {
