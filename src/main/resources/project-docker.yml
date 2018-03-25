@@ -1,0 +1,14 @@
+swarm:
+  http:
+    port: 8080
+  datasources:
+    data-sources:
+      sodicasds:
+        driver-name: postgresql
+        connection-url: jdbc:postgresql://sodicasdb:5432/sodicas
+        user-name: postgres
+        password: postgres
+        valid-connection-checker-class-name: org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker
+        validate-on-match: true
+        background-validation: false
+        exception-sorter-class-name: org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter
