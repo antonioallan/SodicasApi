@@ -50,7 +50,7 @@ public class Dica implements Serializable {
     @JoinColumn(name = "tag_id", referencedColumnName = "id")
     private Set<Tag> tags;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dica")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dica", cascade = CascadeType.ALL)
     private Set<Comentario> comentario;
 
     @Column(name = "pontuacao", scale = 2, precision = 15)
