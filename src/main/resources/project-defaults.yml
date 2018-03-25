@@ -5,7 +5,7 @@ swarm:
     data-sources:
       sodicasds:
         driver-name: postgresql
-        connection-url: jdbc:postgresql://sodicasdb:5432/sodicas
+        connection-url: jdbc:postgresql://localhost:5432/sodicas
         user-name: postgres
         password: postgres
         valid-connection-checker-class-name: org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker
