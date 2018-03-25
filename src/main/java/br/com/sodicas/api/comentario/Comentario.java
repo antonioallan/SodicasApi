@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -39,6 +41,7 @@ public class Comentario implements Serializable {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "dica_id", nullable = false, referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Dica dica;
 
     public Long getId() {
