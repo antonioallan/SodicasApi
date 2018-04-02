@@ -54,10 +54,10 @@ public class DicaDao implements Serializable {
         if (tags.isEmpty()) {
             query.where(builder.like(builder.lower(root.get("titulo")), titulo.toLowerCase().concat("%")));
         } else {
-            Expression<Tag> tagExp = root.join("tags");
+            Expression<Tag> tagExp = root.join(Dica_.tags);
             query.where(builder.like(builder.lower(root.get("titulo")), titulo.toLowerCase().concat("%")), tagExp.in(tags));
         }
-        query.select(root);
+        query.distinct(true);
         query.orderBy(builder.asc(root.get("id")));
         return manager.createQuery(query).setFirstResult(offset).setMaxResults(limit).getResultList();
     }

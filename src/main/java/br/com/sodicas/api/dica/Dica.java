@@ -21,6 +21,8 @@ import javax.persistence.TemporalType;
 import br.com.sodicas.api.autor.Autor;
 import br.com.sodicas.api.comentario.Comentario;
 import br.com.sodicas.api.tag.Tag;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -50,6 +52,7 @@ public class Dica implements Serializable {
     @JoinColumn(name = "tag_id", referencedColumnName = "id")
     private Set<Tag> tags;
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dica")
     private Set<Comentario> comentario;
 

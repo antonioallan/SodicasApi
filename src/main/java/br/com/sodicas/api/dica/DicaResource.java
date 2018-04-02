@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -39,15 +38,24 @@ public class DicaResource {
 
     @POST
     @Path("filtro/{limit}/{offset}")
-    public List<Dica> buscarPor(@PathParam("limit") int limit, @PathParam("offset") int offset, Dados dados) {
-        List<Dica> lista = dao.buscaPor(dados.getTitulo(), dados.getTags(), limit, offset);
-        return lista;
+    public Response buscarPor(@PathParam("limit") int limit, @PathParam("offset") int offset, Dados dados) {
+        try {
+            System.out.println(dados.getTags());
+            List<Dica> lista = dao.buscaPor(dados.getTitulo(), dados.getTags(), limit, offset);
+            return Response.ok(lista).build();
+        } catch (Exception e) {
+            return Response.serverError().build();
+        }
     }
 
     @GET
     @Path("lancamento")
-    public List<Dica> buscarPor(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
-        return dao.buscaPor(limit, offset);
+    public Response buscarPor(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
+        try {
+            return Response.ok(dao.buscaPor(limit, offset)).build();
+        } catch (Exception e) {
+            return Response.serverError().build();
+        }
     }
 
     @GET
