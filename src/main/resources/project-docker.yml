@@ -1,6 +1,6 @@
 swarm:
   http:
-    port: 8081
+    port: 8080
   datasources:
     data-sources:
       sodicasds:
@@ -12,4 +12,3 @@ swarm:
         validate-on-match: true
         background-validation: false
         exception-sorter-class-name: org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter
-

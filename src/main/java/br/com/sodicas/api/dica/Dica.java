@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 
 @Entity
 public class Dica implements Serializable {
@@ -52,8 +53,7 @@ public class Dica implements Serializable {
     @JoinColumn(name = "tag_id", referencedColumnName = "id")
     private Set<Tag> tags;
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dica")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dica", cascade = CascadeType.ALL)
     private Set<Comentario> comentario;
 
     @Column(name = "pontuacao", scale = 2, precision = 15)
